@@ -45,6 +45,12 @@
         "projectId": "d366ed8b-74a5-41e2-9c00-e9697be871fd"
       }
     },
-    "owner": "tissma"
+    "owner": "tissma",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/d366ed8b-74a5-41e2-9c00-e9697be871fd"
+    }
   }
 }

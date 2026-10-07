@@ -15,10 +15,15 @@
 	 
 	/** Fausse API paginée, avec 600 ms de latence */
 	export async function fetchRecipes(page: number) {
+	  let error = "";	
 	  await new Promise((resolve) => setTimeout(resolve, 600));
 	  const start = page * PAGE_SIZE;
+	  if ((page + 1) % 3 === 0) {
+	    error = "Erreur de chargement des recettes";
+	  }
 	  return {
 	    items: ALL_RECIPES.slice(start, start + PAGE_SIZE),
 	    hasMore: start + PAGE_SIZE < TOTAL_RECIPES,
+		error: error,
 	  };
 	}

@@ -1,11 +1,12 @@
 import { LIEUX } from "@/data/lieux";
 import { useLifecycleLog } from "@/hooks/use-lifecycle-log";
-import { Link, useLocalSearchParams } from "expo-router";
+import { Link, useLocalSearchParams, useRouter } from "expo-router";
 import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 	 
 	export default function LieuxScreen() {
 	  useLifecycleLog("Accueil");
+	  const router = useRouter();
 	  const { ville } = useLocalSearchParams<{ ville?: string }>();
 	  const lieux = ville ? LIEUX.filter((lieu) => lieu.ville === ville) : LIEUX;
 	 
@@ -13,9 +14,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 	    <SafeAreaView style={styles.container} edges={["top"]}>
 	      <View style={styles.header}>
 	        <Text style={styles.title}>{ville ? ville : "Tous les lieux"}</Text>
-	        <Link href="/filtre" style={styles.filter}>
-	          Filtrer
-	        </Link>
+	        <Pressable
+	          accessibilityRole="button"
+	          onPress={() => router.push("/filtre")}
+	          style={styles.filterButton}
+	        >
+	          <Text style={styles.filter}>Filtrer par ville</Text>
+	        </Pressable>
 	      </View>
 	      <FlatList
 	        data={lieux}
@@ -38,6 +43,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 	const styles = StyleSheet.create({
 	  container: { flex: 1 },
 	  header: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: 16 },
+	  filterButton: { padding: 8 },
 	  title: { fontSize: 22, fontWeight: "700" },
 	  filter: { fontSize: 16, color: "#208AEF" },
 	  row: { padding: 16, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: "#ccc" },

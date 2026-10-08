@@ -5,13 +5,13 @@ import { useState } from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 	 
 	export default function LieuScreen() {
-	  const { id, from } = useLocalSearchParams<{ id: string; from?: string }>();
+	  const { id, from, ref } = useLocalSearchParams<{ id: string; from?: string; ref?: string }>();
 	  const router = useRouter();
 	  const [compteur, setCompteur] = useState(0);
 	  useLifecycleLog(`Lieu ${id}`);
 	 
 	  const lieu = getLieu(id);
-	  if (!lieu) {
+	  if (!lieu || isNaN(Number(id))) {
 	    return (
 	      <View style={styles.container}>
 	        <Text style={styles.title}>Lieu introuvable : {id}</Text>
@@ -23,6 +23,7 @@ import { Button, StyleSheet, Text, View } from "react-native";
 	  const suivant = String(Number(id) + 1);
 	 
 	  return (
+		
 	    <View style={styles.container}>
 	      <Stack.Screen options={{ title: lieu.nom }} />
 	      <Text style={styles.title}>{lieu.nom}</Text>
@@ -38,6 +39,9 @@ import { Button, StyleSheet, Text, View } from "react-native";
 	          router.push({ pathname: "/lieu/[id]", params: { id: suivant, from: `lieu ${id}` } })
 	        }
 	      />
+		  {ref && 
+		  	<Text>Ref : {ref}</Text>
+		  }
 	      <Button title="Retour" onPress={() => router.back()} />
 	    </View>
 	  );
